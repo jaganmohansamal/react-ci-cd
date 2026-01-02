@@ -3,6 +3,6 @@ type HeaderProps = {
 };
 
 export function Header({ title }: HeaderProps) {
-  console.log("header");
+  console.log("headers");
   return <h1>{title}</h1>;
 }
