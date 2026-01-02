@@ -21,7 +21,7 @@ export default defineConfig([
     },
     rules: {
       // 🧱 Industry safety rules
-      'no-console': 'warn',
+      'no-console': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
 
       // 🧠 Code quality
