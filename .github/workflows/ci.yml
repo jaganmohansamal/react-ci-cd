@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  # Run CI for PRs (feature → develop, develop → main)
+  # Run this CI when a PR’s TARGET branch is develop or main.
+  pull_request:
+    branches:
+      - main
+      - develop
+
+  # Run CI when code is actually merged/pushed
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Pulls your code into the runner
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Guarantees same Node version as local dev
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      # Clean, deterministic install using lockfile
+      - name: Install dependencies
+        run: npm ci
+
+      #  Enforces code quality rules
+      - name: Lint
+        run: npm run lint
+
+      # Headless, deterministic tests with coverage
+      - name: Run tests (CI)
+        run: npm run test:ci
+
+      # Proves code is deployable
+      - name: Build
+        run: npm run build
